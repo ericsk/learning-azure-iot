@@ -57,3 +57,6 @@ typings/
 # dotenv environment variables file
 .env
 
+# Simulator
+Simulator/Node/package-lock.json
+Simulator/Node/dist
