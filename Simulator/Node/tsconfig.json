@@ -6,6 +6,7 @@
         "outDir": "./dist"
     },
     "files": [
-        "send-events.ts"
+        "send-events.ts",
+        "msg-callback.ts"
     ]
 }

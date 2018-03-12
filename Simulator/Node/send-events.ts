@@ -4,39 +4,9 @@ import * as iotDevice from 'azure-iot-device';
 import * as dateformat from 'dateformat';
 
 import { config } from './config';
+import * as util from './util';
 
-let iothubRegistry: iothub.Registry = iothub.Registry.fromConnectionString(config.iothub.connectionString);
-
-function loadOrCreateDevicesAsync(deviceId: string): Promise<iothub.Device> {
-    return new Promise((resolve, reject) => {
-        // 試著去註冊該裝置，若有錯誤表示已經有了可以直接用
-        iothubRegistry.create({'deviceId': deviceId}, (err, deviceInfo, response) => {
-            if (err) {  // 裝置已存在
-                iothubRegistry.get(deviceId, (e, dInfo, r) => {
-                    resolve(dInfo);
-                });
-            } else {    // 裝置已註冊
-                resolve(deviceInfo);
-            }
-        });
-    });
-}
-
-function initDevicesAsync(): Promise<Array<iothub.Device>> {
-    return new Promise((resolve, reject) => {
-        let deviceCreationPromises: Array<Promise<any>> = [];
-
-        for (let i = 0; i < config.deviceCount; ++i) {
-            deviceCreationPromises.push(loadOrCreateDevicesAsync(`SimulationDevice-${i}`));
-        }
-
-        Promise.all(deviceCreationPromises).then((devices) => {
-            resolve(devices);
-        });
-    });
-}
-
-initDevicesAsync()
+util.initDevicesAsync()
     .then((devices: Array<iothub.Device>) => {
         for (let i = 0; i < devices.length; ++i) {
             let deviceConnectionString: string = `HostName=${config.iothub.host};DeviceId=${devices[i].deviceId};SharedAccessKey=${devices[i].authentication.symmetricKey.primaryKey}`;
