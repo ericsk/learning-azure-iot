@@ -6,7 +6,7 @@
     "scripts": {
         "build": "tsc",
         "postinstall": "npm run build",
-        "start": "npm run build && node dist/app.js"
+        "send-events": "npm run build && node dist/send-events.js"
     },
     "devDependencies": {
         "typescript": "^2.7.2",

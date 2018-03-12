@@ -6,6 +6,6 @@
         "outDir": "./dist"
     },
     "files": [
-        "app.ts"
+        "send-events.ts"
     ]
 }
