@@ -7,6 +7,7 @@
     },
     "files": [
         "send-events.ts",
+        "send-multi-events.ts",
         "msg-callback.ts"
     ]
 }
