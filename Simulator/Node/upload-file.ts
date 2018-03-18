@@ -22,7 +22,7 @@ util.initDevicesAsync()
             const rs = fs.createReadStream(FILE_PATH);
 
             console.log("Uploading the file...");
-            deviceClient.uploadToBlob(`${device.deviceId}/IoTHub-${new Date().getMilliseconds()}.png`, rs, stats.size, (err) => {
+            deviceClient.uploadToBlob(`IoTHub-${new Date().getTime()}.png`, rs, stats.size, (err) => {
                 if (err) {
                     console.error("Error uploading file: " + err.toString());
                 } else {
