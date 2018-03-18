@@ -10,6 +10,26 @@ import { FILE } from 'dns';
 
 const FILE_PATH = '../assets/Azure IoTHub_COLOR.png';
 
+// Use service client to receive the file upload notifications
+let serviceClient = iothub.Client.fromConnectionString(`HostName=${config.iothub.host};SharedAccessKeyName=${config.iothub.policy};SharedAccessKey=${config.iothub.accessKey}`);
+serviceClient.open((err) => {
+    if (err) {
+        console.error("Cannot connect to IoT Hub: " + err.message);
+    } else {
+        console.log("Service client has connected to the IoT Hub.");
+        serviceClient.getFileNotificationReceiver((err?: Error, receiver?: iothub.Client.ServiceReceiver) => {
+            if (err) {
+                console.error("Cannot get the file upload notification: " + err.toString());
+            } else {
+                receiver.on('message', (msg: iotDevice.Message): void => {
+                    console.log('File upload from device:')
+                    console.log(msg.getData().toString());
+                });
+            }
+        })
+    }
+});
+
 util.initDevicesAsync()
     .then((devices: Array<iothub.Device>) => {
         // Use SimulationDevice-0 for uploading the file.
@@ -31,3 +51,4 @@ util.initDevicesAsync()
             });
         });
     });
+
