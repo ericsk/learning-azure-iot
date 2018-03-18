@@ -8,6 +8,7 @@
     "files": [
         "send-events.ts",
         "send-multi-events.ts",
-        "msg-callback.ts"
+        "msg-callback.ts",
+        "upload-file.ts"
     ]
 }
